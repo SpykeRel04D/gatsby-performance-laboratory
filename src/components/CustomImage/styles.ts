@@ -1,13 +1,13 @@
-import styled from "styled-components"
+import styled from 'styled-components';
 
 const ImageWrapper = styled.div<{
-  ratio: number
+  ratio: number;
 }>`
   position: relative;
   overflow: hidden;
   &:after {
     display: block;
-    content: "";
+    content: '';
     padding-bottom: ${({ ratio }) => `${100 / ratio}%`};
   }
   img {
@@ -17,4 +17,5 @@ const ImageWrapper = styled.div<{
     top: 0;
     left: 0;
   }
-`
+`;
+export { ImageWrapper };
