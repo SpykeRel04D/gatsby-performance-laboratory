@@ -25,7 +25,7 @@ const Basic = props => {
       {props.children}
       {props.withContent && (
         <Wrapper size="mainwrapper" center>
-          <h1>Image Test with 'CustomImage' component</h1>
+          <h1>Dummy context generated with images and text</h1>
           <BigImage>
             <CustomImage
               src={ImageData[0].original.href}
