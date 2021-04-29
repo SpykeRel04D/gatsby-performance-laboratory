@@ -5,7 +5,7 @@ const IndexPage = () => (
   <>
     <ul>
       <li>
-        <Link to="/scroll-tracking/tracking-01">Label</Link>
+        <Link to="/scroll-tracking/tracking-01">Tracker With Hook</Link>
         <p>
           <i>
             In this page we are using a custom hook called "useScrollPosition".

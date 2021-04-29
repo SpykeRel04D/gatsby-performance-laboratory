@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import GlobalStyle from '../ui/Globals';
 
 import Header from '../components/Header';
@@ -18,6 +18,7 @@ import ImageData from '../images/ImageData';
 import { getSrcset } from '../ui/helpers';
 
 const Basic = props => {
+  const rendersCount = useRef(0);
   return (
     <>
       <GlobalStyle />
@@ -26,6 +27,7 @@ const Basic = props => {
       {props.withContent && (
         <Wrapper size="mainwrapper" center>
           <h1>Dummy context generated with images and text</h1>
+          <h2>Main Content Page Render Count: {++rendersCount.current}</h2>
           <BigImage>
             <CustomImage
               src={ImageData[0].original.href}
