@@ -1,0 +1,65 @@
+const path = require('path');
+const pathToInlineSvg = path.resolve(__dirname, '../src/ui/svgs/');
+
+module.exports = ({ config }) => {
+  // Transpile Gatsby module because Gatsby includes un-transpiled ES6 code.
+  config.module.rules[0].exclude = [/node_modules\/(?!(gatsby)\/)/];
+
+  // use installed babel-loader which is v8.0-beta (which is meant to work with @babel/core@7)
+  config.module.rules[0].use[0].loader = require.resolve('babel-loader');
+
+  // use @babel/preset-react for JSX and env (instead of staged presets)
+  config.module.rules[0].use[0].options.presets = [
+    require.resolve('@babel/preset-react'),
+    require.resolve('@babel/preset-env'),
+  ];
+
+  // use @babel/plugin-proposal-class-properties for class arrow functions
+  config.module.rules[0].use[0].options.plugins = [
+    require.resolve('@babel/plugin-proposal-class-properties'),
+  ];
+
+  // Prefer Gatsby ES6 entrypoint (module) over commonjs (main) entrypoint
+  config.resolve.mainFields = ['browser', 'module', 'main'];
+  config.module.rules.push({
+    test: /\.(ts|tsx)$/,
+    loader: require.resolve('babel-loader'),
+    options: {
+      presets: [['react-app', { flow: false, typescript: true }]],
+    },
+  });
+  config.resolve.extensions.push('.ts', '.tsx');
+  // svg with @svgr
+  const fileLoaderRule = config.module.rules.find(rule =>
+    rule.test.test('.svg')
+  );
+  fileLoaderRule.exclude = pathToInlineSvg;
+
+  config.module.rules.push({
+    test: /\.(jpg|png|woff|woff2)$/,
+    use: [
+      {
+        loader: 'file-loader',
+        query: {
+          name: '[name].[ext]',
+        },
+      },
+    ],
+    include: path.resolve(__dirname, '../'),
+  });
+
+  config.module.rules.push({
+    test: /\.svg$/,
+    include: pathToInlineSvg,
+    use: [
+      {
+        loader: '@svgr/webpack',
+        options: {
+          icon: true,
+        },
+      },
+    ],
+  });
+
+  return config;
+};
